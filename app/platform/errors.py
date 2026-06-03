@@ -72,6 +72,10 @@ class UpstreamError(AppError):
         status:  int = 502,
         body:    str = "",
     ) -> None:
+        body = (body or "").strip()
+        if body and body not in message:
+            excerpt = body[:300].replace("\n", " ") if len(body) > 300 else body.replace("\n", " ")
+            message = f"{message}: {excerpt}"
         super().__init__(
             message, kind=ErrorKind.UPSTREAM, code="upstream_error", status=status,
             details={"body": body},

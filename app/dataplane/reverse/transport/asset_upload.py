@@ -192,6 +192,7 @@ async def upload_from_input(token: str, file_input: str) -> tuple[str, str]:
                 resp = await session.get(file_input, headers=headers, timeout=30.0)
             raw  = resp.content
             if resp.status_code != 200:
+                body_text = (raw or b"").decode("utf-8", "replace")[:300]
                 await proxy.feedback(
                     lease,
                     ProxyFeedback(
@@ -203,6 +204,7 @@ async def upload_from_input(token: str, file_input: str) -> tuple[str, str]:
                 raise UpstreamError(
                     f"Failed to fetch input URL: {resp.status_code}",
                     status = resp.status_code,
+                    body = body_text,
                 )
             mime     = (resp.headers.get("content-type", "").split(";")[0].strip()
                         or "application/octet-stream")
