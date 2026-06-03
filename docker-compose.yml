@@ -1,7 +1,8 @@
 services:
   grok2api:
     container_name: grok2api
-    image: ghcr.io/chenyme/grok2api:latest
+    # image: ghcr.io/chenyme/grok2api:latest  # latest tag (会随 docker compose pull 漂移)
+    image: ghcr.io/chenyme/grok2api@sha256:e35ea179cc830e2a7c88918b263c6cbcfac9c179ca0c26e949615e7968427b08  # PINNED 2026-05-18，patched refresh.py 兼容此版本
     ports:
       - "${HOST_PORT:-8000}:${SERVER_PORT:-8000}"
     environment:
@@ -15,6 +16,9 @@ services:
       ACCOUNT_REDIS_URL: ${ACCOUNT_REDIS_URL:-}
       ACCOUNT_MYSQL_URL: ${ACCOUNT_MYSQL_URL:-}
       ACCOUNT_POSTGRESQL_URL: ${ACCOUNT_POSTGRESQL_URL:-}
+      GROK_APP_APP_KEY: ${GROK_APP_APP_KEY:-grok2api}
+      GROK_APP_API_KEY: ${GROK_APP_API_KEY:-}
+      GROK_APP_APP_URL: ${GROK_APP_APP_URL:-}
       # 启用 CF 自动刷新: 取消以下三行注释，并取消底部 flaresolverr 服务的注释
       # FLARESOLVERR_URL: http://flaresolverr:8191
       # CF_REFRESH_INTERVAL: "600"
@@ -28,6 +32,7 @@ services:
     volumes:
       - ./data:/app/data
       - ./logs:/app/logs
+      - ./patches/refresh.py:/app/app/control/account/refresh.py:ro
     restart: unless-stopped
 
   # 如果出口 IP 不干净，可取消以下注释使用 Warp 作为落地代理

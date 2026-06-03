@@ -352,6 +352,15 @@ def create_app() -> FastAPI:
     # Global exception handler — converts AppError to JSON.
     @app.exception_handler(AppError)
     async def _app_error_handler(request: Request, exc: AppError):
+        if exc.status >= 400:
+            logger.warning(
+                "app error: method={} path={} status={} code={} message={}",
+                request.method,
+                request.url.path,
+                exc.status,
+                exc.code,
+                exc.message,
+            )
         return JSONResponse(exc.to_dict(), status_code=exc.status)
 
     @app.exception_handler(RequestValidationError)

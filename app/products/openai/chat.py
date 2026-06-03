@@ -428,7 +428,8 @@ async def _stream_chat(
 
         if response.status_code != 200:
             try:
-                body = response.content.decode("utf-8", "replace")[:400]
+                body_bytes = await response.acontent()
+                body = body_bytes.decode("utf-8", "replace")[:400]
             except Exception:
                 body = ""
             raise UpstreamError(
