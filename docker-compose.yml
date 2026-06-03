@@ -2,7 +2,10 @@ services:
   grok2api:
     container_name: grok2api
     # image: ghcr.io/chenyme/grok2api:latest  # latest tag (会随 docker compose pull 漂移)
-    image: ghcr.io/chenyme/grok2api@sha256:e35ea179cc830e2a7c88918b263c6cbcfac9c179ca0c26e949615e7968427b08  # PINNED 2026-05-18，patched refresh.py 兼容此版本
+#    image: ghcr.io/chenyme/grok2api@sha256:e35ea179cc830e2a7c88918b263c6cbcfac9c179ca0c26e949615e7968427b08  # PINNED 2026-05-18，patched refresh.py 兼容此版本
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "${HOST_PORT:-8000}:${SERVER_PORT:-8000}"
     environment:
