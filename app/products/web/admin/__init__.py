@@ -87,6 +87,7 @@ def _sanitize_proxy_config(payload: dict[str, Any]) -> dict[str, Any]:
             ("user_agent", False),
             ("cf_cookies", False),
             ("cf_clearance", True),
+            ("statsig_id", False),
         ]:
             if key not in normalized:
                 continue

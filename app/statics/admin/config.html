@@ -627,6 +627,13 @@ const SCHEMA_DEF = [
             showIf: { path: 'proxy.clearance.mode', values: ['manual', 'flaresolverr'] },
           },
           {
+            key: 'statsig_id',
+            label: 'Statsig ID',
+            type: 'text',
+            wide: true,
+            desc: '自定义请求头中的 x-statsig-id。留空时沿用现有逻辑自动生成。',
+          },
+          {
             key: 'user_agent',
             label: 'User-Agent',
             labelKey: 'config.schema.fields.userAgent.label',

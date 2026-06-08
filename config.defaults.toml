@@ -88,6 +88,8 @@ skip_ssl_verify = false
 [proxy.clearance]
 # Cloudflare clearance 模式：none | manual | flaresolverr
 mode = "none"
+# 自定义 Statsig ID；留空则按现有逻辑动态生成/回退
+statsig_id = ""
 # 手动模式：Cloudflare Cookie 字符串
 cf_cookies = ""
 # User-Agent（需与 cf_cookies 匹配）
